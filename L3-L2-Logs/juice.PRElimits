@@ -21,13 +21,13 @@ server {
     status_zone proxy;
     server_name www.nginxtraining.com;
     include /etc/nginx/ssl-configs/ssl-params.conf;
+    root   /usr/share/nginx/html;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $host;
 
     access_log /var/log/nginx/juice.access.log proxy_log;
     error_log /var/log/nginx/juice.error.log info;
-    root   /usr/share/nginx/html;
 
     location / {
        proxy_pass http://juice_server;
