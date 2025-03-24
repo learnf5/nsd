@@ -38,9 +38,21 @@ PS4='+$(date +"%T.%3N"): '
   #### NEED TO ADD STEP TO LAB to rename SecUp_proxy-ssl-params.bak to SecUp_proxy-ssl-params.conf 
    # sudo scp /tmp/nsd_files/L2-L2-SecUp/proxy-ssl-params.conf nginx:/etc/nginx/ssl-configs/proxy-ssl-params.conf    
    sudo scp /tmp/nsd_files/L2-L2-SecUp/SecUp_proxy-ssl-params.bak nginx:/etc/nginx/ssl-configs/SecUp_proxy-ssl-params.bak    
+ 
   #### NEED TO ADD STEP TO LAB to rename SecUp_dhparam.pem to dhparam.pem 
-   sudo scp /tmp/nsd_files/L2-L2-SecUp/SecUp_dhparam.pem           nginx:/etc/nginx/SecUp_dhparam.pem
+  #### PROBABLY don't need this since they will have created this file in part 1 of lab 2
+  # sudo scp /tmp/nsd_files/L2-L2-SecUp/SecUp_dhparam.pem           nginx:/etc/nginx/SecUp_dhparam.pem
 
+#### OR MAYBE A SIMPLER SETUP, create a new directory /etc/nginx/SecureUpstreams
+    sudo ssh nginx mkdir /etc/nginx/SecureUpstreams
+    sudo scp /tmp/nsd_files/L2-L2-SecUp/juice.conf                nginx:/etc/nginx/SecureUpstreams/juice.conf
+    sudo scp /tmp/nsd_files/L2-L2-SecUp/api_server.conf           nginx:/etc/nginx/SecureUpstreams/api_server.conf
+    sudo scp /tmp/nsd_files/L2-L2-SecUp/ssl-params.conf           nginx:/etc/nginx/SecureUpstreams/ssl-params.conf
+    sudo scp /tmp/nsd_files/L2-L2-SecUp/proxy-ssl-params.conf     nginx:/etc/nginx/SecureUpstreams/proxy-ssl-params.conf    
+     
+#### PROBABLY don't need this since they will have created this file in part 1 of lab 2
+    #sudo scp /tmp/nsd_files/L2-L2-SecUp/dhparam.pem           nginx:/etc/nginx/SecureUpstreams/dhparam.pem
+    
     # copy cert files to nginx
     ##### PROBABLY DON'T NEED THESE FILES SINCE create in part 1 of Lab2 HTTPS
     #sudo scp /tmp/nsd_files/certs/ca-cert.crt                nginx:/etc/nginx/ssl/ca-cert.crt
