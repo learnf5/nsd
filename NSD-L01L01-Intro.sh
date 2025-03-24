@@ -3,14 +3,16 @@ set -x
 PS4='+$(date +"%T.%3N"): '
 
 # update lab environment
+# pull files from github, prep directories on nginx and copy files to nginx
+    cd /tmp
+    git clone https://github.com/learnf5/nsd.git nsd_files
+    sudo ssh nginx mkdir /etc/nginx/ssl
+    sudo ssh nginx chown nginx:nginx /etc/nginx/ssl
+    sudo ssh nginx mkdir /etc/nginx/ssl-configs
+    sudo ssh nginx rm /etc/nginx/conf.d/default.conf
+    sudo scp /tmp/nsd_files/L1-L1-Intro/hosts_nginx nginx:/etc/hosts
+    sudo scp /tmp/nsd_files/L1-L1-Intro/juice.conf  nginx:/etc/nginx/conf.d/juice.conf
 
-# install 30 day nginx one trial licenses from Salesforce - EXPIRES April 4, 2025
-set +x
-#original pathanme - if this works then delete the ones below without the "main" in the pathaname
-curl --silent --remote-name-all --output-dir /tmp --header "Authorization: token $LIC_TOKEN" https://raw.githubusercontent.com/learnf5/eval-reg-keys/main/nginx/EXPIRES-April-4-2025/nginx-one-eval.{crt,key,jwt}
-echo curl --silent --remote-name-all --output-dir /tmp --header "Authorization: token xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" https://raw.githubusercontent.com/learnf5/eval-reg-keys/main/nginx/EXPIRES-April-4-2025/nginx-one-eval.{crt,key,jwt}
-
-set -x
-until sudo scp /tmp/nginx-one-eval.crt nginx:/etc/ssl/nginx/nginx-repo.crt || (( count++ > 5 )); do sleep 5; done
-until sudo scp /tmp/nginx-one-eval.key nginx:/etc/ssl/nginx/nginx-repo.key || (( count++ > 5 )); do sleep 5; done
-until sudo scp /tmp/nginx-one-eval.jwt nginx:/etc/nginx/license.jwt || (( count++ > 5 )); do sleep 5; done
+    # update local hosts file
+    sudo mv /tmp/nsd_files/L1-L1-Intro/hosts_jump /etc/hosts
+ 
