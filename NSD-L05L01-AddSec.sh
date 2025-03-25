@@ -1,5 +1,8 @@
 # Enable debugging
 set -x
+PS4='+$(date +"%T.%3N"): '
+
+# update lab environment
 
 # pull github file, prepare nginx host and copy files to nginx host
     cd /tmp
